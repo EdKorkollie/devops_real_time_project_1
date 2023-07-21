@@ -13,7 +13,7 @@ pipeline {
         }
         stage('CODE CHECKOUT') {
             steps {
-                git branch: 'main', url: 'https://github.com/EdKorkollie/devops_real_time_project_1.git'
+                git branch: 'main',URL:'https://github.com/EdKorkollie/devops_real_time_project_1.git'
             }
         }
         stage('MODIFIED IMAGE TAG') {
@@ -32,13 +32,12 @@ pipeline {
         } 
         stage('SONAR SCANNER') {
             environment {
-            sonar_token = credentials('SONAR_TOKEN')
+               SONAR_URL = "http://3.85.2.148.93:9000" 
             }
             steps {
-                sh 'mvn sonar:sonar -Dsonar.projectName=$JOB_NAME \
-                    -Dsonar.projectKey=$JOB_NAME \
-                    -Dsonar.host.url=http://3.85.2.148:9000 \
-                    -Dsonar.token=$sonar_token'
+                withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONARQUBE_TOKEN')]) {
+                    sh 'mvn sonar:sonar -Dsonar.login=$SONAR_TOKEN -Dsonar.host.url=$SONAR_URL{}'
+                }
             }
         } 
         stage('COPY JAR & DOCKERFILE') {

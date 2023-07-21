@@ -20,19 +20,19 @@ spec:
         app: my-app
     spec:
       containers:
-      - name: my-app
-        image: mahesh8887/image-name:latest        
-        ports:
-        - containerPort: 8080        
-        readinessProbe:
-          httpGet:
-            path: /webapp
-            port: 8080
-          initialDelaySeconds: 30
-          periodSeconds: 30
-          successThreshold: 1
-          timeoutSeconds: 30
-      terminationGracePeriodSeconds: 30            
+        - name: my-app
+          image: edkorkollie/image-name:latest
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /webapp
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 30
+      terminationGracePeriodSeconds: 30
 ---
 apiVersion: v1
 kind: Service
@@ -45,7 +45,7 @@ spec:
   selector:
     app: my-app
   ports:
-  - name: http
-    port: 80
-    targetPort: 8080
-    nodePort: 30000
+    - name: http
+      port: 80
+      targetPort: 8080
+      nodePort: 30000
